@@ -1,0 +1,44 @@
+.table-narrow {
+    width: 20%; /* oder eine andere gewünschte Breite */
+    margin-top: 2%;
+    margin-left: 2%; /* Anpassung des linken Randes */
+    border-collapse: separate; /* Damit der border-radius funktioniert */
+    border-radius: 10px; /* Rundung der Ecken */
+    overflow: hidden; /* Überlauf verhindern, damit die Rundung sichtbar ist */
+}
+
+.table-narrow th,
+.table-narrow td {
+    border-radius: 10px; /* Optional: Auch die Zellen abrunden */
+}
+
+.protocols-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.protocol-card {
+    flex: 1 0 21%; 
+    margin: 10px;
+    min-width: 200px; 
+    color: black; 
+}
+
+.protocol-body {
+    background-color: rgb(219, 219, 211);
+    padding: 10px;
+    color: black; 
+}
+
+.protocol-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    color: black; 
+}
+
+.protocol-label {
+    font-weight: bold;
+    color: black; 
+}

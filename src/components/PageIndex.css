@@ -1,0 +1,36 @@
+.protocols-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.protocol-card {
+    flex: 1 0 21%; 
+    margin: 10px;
+    min-width: 200px; 
+    color: black; 
+}
+
+.protocol-body {
+    background-color: rgb(219, 219, 211);
+    padding: 10px;
+    color: black; 
+}
+
+.protocol-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    color: black; 
+}
+
+.protocol-label {
+    font-weight: bold;
+    color: black; 
+}
+
+.btn-danger {
+    background-color: rgb(149, 46, 46);
+    border-color: rgb(149, 46, 46);
+    
+}

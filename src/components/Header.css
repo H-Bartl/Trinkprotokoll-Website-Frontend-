@@ -1,0 +1,12 @@
+.navbar-nav .nav-link {
+    color: white !important; /* Ensure the links always stay white */
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: white !important; /* Optional: Change color on hover */
+  }
+  
+  .navbar-nav .nav-link.active {
+    color: white !important; /* Ensure active link stays white */
+  }
+  
