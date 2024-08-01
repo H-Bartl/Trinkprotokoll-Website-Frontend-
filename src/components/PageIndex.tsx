@@ -5,8 +5,9 @@ import { getAlleProtokolle } from "../backend/api";
 import { Link } from "react-router-dom";
 import './PageIndex.css'; 
 import { useErrorBoundary } from "react-error-boundary";
-import { Card, CardBody, CardHeader, CardFooter } from "react-bootstrap";
+import { Card, CardBody, CardHeader, CardFooter, Button } from "react-bootstrap";
 import { useLoginContext } from "./LoginContext";
+import { LinkContainer } from "react-router-bootstrap";
 
 export function PageIndex() {
 
@@ -33,11 +34,19 @@ export function PageIndex() {
     if (!loading) {
         return <LoadingIndicator />;
     } else {
-        return (
+        return (<>
+            {loginInfo && (
+                <div style={{marginTop:"20px", marginLeft:"10px"}}>
+                    <LinkContainer to={"/protokoll/neu"}>
+                        <Button className="btn-info">neues Protokoll</Button>
+                    </LinkContainer>
+                </div>
+            )}
+            
             <div className="protocols-container">
                 {
                     totalProt.map(p => (
-                        <Card className="protocol-card" key={p.id}>
+                        <Card className="protocol-card" key={p.id} style={{marginTop:"30px"}}>
                             <CardHeader style={{color: "white"}}>
                                 Protokoll von {p.patient}
                             </CardHeader>
@@ -56,6 +65,7 @@ export function PageIndex() {
                     ))
                 }
             </div>
+            </>
         );
     }
 }

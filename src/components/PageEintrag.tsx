@@ -26,7 +26,7 @@ export function PageEintrag(){
             
         }
         load();
-    })
+    },[])
 
     if (!loading) {
         return <LoadingIndicator/>

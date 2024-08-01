@@ -18,6 +18,7 @@ import { LoginDialog } from "./components/LoginDialog";
 import { useEffect, useState } from "react";
 import { LoginContext, LoginInfo } from "./components/LoginContext";
 import { getLogin } from "./backend/api";
+import { CreateProtokoll } from "./components/CreateProtokoll";
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
             <Route path="/eintrag/:eintragId" element={<PageEintrag/>}></Route>
             <Route path="/admin" element={<PageAdmin/>}></Route>
             <Route path="/prefs" element={<PagePrefs/>}></Route>
+            <Route path="/protokoll/neu" element={<CreateProtokoll/>}></Route>
           </Routes>
         </LoginContext.Provider>
       </ErrorBoundary>

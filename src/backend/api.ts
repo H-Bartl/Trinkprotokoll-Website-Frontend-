@@ -5,6 +5,8 @@ import { LoginInfo } from "../components/LoginContext";
 import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 import { eintraege, protokolle } from "./testdata";
 
+export let erstellerId: string;
+
 export async function getAlleProtokolle(): Promise<ProtokollResource[]> {
     if (process.env.REACT_APP_REAL_FETCH!=='true') {
         await new Promise(r => setTimeout(r, 700));
@@ -53,10 +55,42 @@ export async function getProtokoll(protokollId:string): Promise<ProtokollResourc
         const response = await fetchWithErrorHandling(url, {credentials: "include" as RequestCredentials})
         return await response.json()
     }
-    // const url = `${process.env.REACT_APP_API_SERVER_URL}/api/protokoll/${protokollId}`
-    //     const response = await fetchWithErrorHandling(url)
-    //     return await response.json()
     
+}
+
+export async function putProtokoll(protResource: ProtokollResource): Promise<ProtokollResource> {
+
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/api/protokoll/${protResource.id}`
+    const response = await fetchWithErrorHandling(url, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify(protResource),
+        credentials: "include" as RequestCredentials
+    })
+    return await response.json()
+}
+
+export async function postProtokoll(protResource:ProtokollResource): Promise<ProtokollResource> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/api/protokoll/`
+    const response = await fetchWithErrorHandling(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify(protResource),
+        credentials: "include" as RequestCredentials
+    })
+    return await response.json()
+}
+
+export async function deleteProtokoll(protokollId:string) {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/api/protokoll/${protokollId}`
+    await fetchWithErrorHandling(url, {
+        method: "DELETE",
+        credentials: "include" as RequestCredentials
+    })
 }
 
 export async function getEintrag(eintragId:string): Promise<EintragResource> {
@@ -95,7 +129,9 @@ export async function getLogin(): Promise<LoginInfo|false> {
         method: "GET",
         credentials: "include" as RequestCredentials
     })
-    return await response.json()
+    let retur = await response.json()
+    erstellerId = retur.id
+    return retur
 }
 
 export async function deleteLogin(): Promise<any> {

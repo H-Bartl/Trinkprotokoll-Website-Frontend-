@@ -1,20 +1,44 @@
 import { useState, useEffect } from "react";
 import { EintragResource, ProtokollResource } from "../Resources";
-import { getAlleEintraege, getProtokoll } from "../backend/api";
+import { deleteProtokoll, getAlleEintraege, getProtokoll } from "../backend/api";
 import { LoadingIndicator } from "./LoadingIndicator";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useErrorBoundary } from "react-error-boundary";
 import './PageProtokoll.css'; 
-import { Card, CardBody, CardFooter, CardHeader } from "react-bootstrap";
+import { Button, Card, CardBody, CardFooter, CardHeader } from "react-bootstrap";
+import { Edit } from "./Edit";
+import { useLoginContext } from "./LoginContext";
 
 export function PageProtokoll(){
+
     const params = useParams()
     let protokollId = params.protokollId
+    // console.log(protokollId + "-----------")
+
     const [totalProtokoll, setProtokoll] = useState<ProtokollResource>();
     const [loading, setLoading] = useState<ProtokollResource | undefined>(undefined)
     const [totalEintrag, setEintrag] = useState<EintragResource[]>();
 
+    const navigate = useNavigate();
+
+    const {loginInfo} = useLoginContext()
+
+    const [show, setShow] = useState(false);
+
     const {showBoundary} = useErrorBoundary();
+
+    async function protEdit() {
+        setShow(true)
+    }
+
+    async function deleteProt() {
+        try {
+            let p = await deleteProtokoll(protokollId!.toString())
+            navigate("/")
+        } catch (error) {
+            
+        }
+    }
 
     useEffect(() => {
         async function load() {
@@ -30,7 +54,7 @@ export function PageProtokoll(){
             
         }
         load();
-    })
+    },[])
 
     if (!loading) {
         return <LoadingIndicator/>
@@ -45,12 +69,16 @@ export function PageProtokoll(){
                                 </CardHeader>
                                 <CardBody className="protocol-body">
                                     <div className="protocol-row"><span className="protocol-label">Datum: {totalProtokoll!.datum}</span></div>
-                                    <div className="protocol-row"><span className="protocol-label">Öffentlich: {totalProtokoll!.public!.toString()}</span></div>
-                                    <div className="protocol-row"><span className="protocol-label">Geschlossen: {totalProtokoll!.closed!.toString()}</span></div>
+                                    <div className="protocol-row"><span className="protocol-label">Öffentlich: {totalProtokoll!.public ? "Ja" : "Nein"}</span></div>
+                                    <div className="protocol-row"><span className="protocol-label">Geschlossen: {totalProtokoll!.closed ? "Ja" : "Nein"}</span></div>
                                     <div className="protocol-row"><span className="protocol-label">Ersteller: {totalProtokoll!.erstellerName}</span></div>
                                     <div className="protocol-row"><span className="protocol-label">Verändert: {totalProtokoll!.updatedAt}</span></div>
                                     <div className="protocol-row"><span className="protocol-label">Gesamtemenge: {totalProtokoll!.gesamtMenge}</span></div>
                                 </CardBody>
+                                <CardFooter>
+                                    {loginInfo && (<><Button onClick={protEdit}>Editieren</Button><Button className="btn btn-danger" style={{marginLeft:"20px"}} onClick={deleteProt}>Löschen</Button></>)}
+                                    {show && <Edit open={show} onHide={() => setShow(false)}></Edit>}
+                                </CardFooter>
                             </Card>
                                     
                         
