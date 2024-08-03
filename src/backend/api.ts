@@ -110,6 +110,41 @@ export async function getEintrag(eintragId:string): Promise<EintragResource> {
     
 }
 
+export async function putEintrag(eintragResource: EintragResource): Promise<EintragResource> {
+
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/api/eintrag/${eintragResource.id}`
+    const response = await fetchWithErrorHandling(url, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify(eintragResource),
+        credentials: "include" as RequestCredentials
+    })
+    return await response.json()
+}
+
+export async function postEintrag(eintragResource: EintragResource): Promise<EintragResource> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/api/eintrag/`
+    const response = await fetchWithErrorHandling(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify(eintragResource),
+        credentials: "include" as RequestCredentials
+    })
+    return await response.json()
+}
+
+export async function deleteEintrag(eintragId:string) {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/api/eintrag/${eintragId}`
+    await fetchWithErrorHandling(url, {
+        method: "DELETE",
+        credentials: "include" as RequestCredentials
+    })
+}
+
 export async function postLogin(name: string, password: string):Promise<LoginResource> {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/api/login/`
     const response = await fetchWithErrorHandling(url, {

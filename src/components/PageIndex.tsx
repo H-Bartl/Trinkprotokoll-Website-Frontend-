@@ -38,7 +38,7 @@ export function PageIndex() {
             {loginInfo && (
                 <div style={{marginTop:"20px", marginLeft:"10px"}}>
                     <LinkContainer to={"/protokoll/neu"}>
-                        <Button className="btn-info">neues Protokoll</Button>
+                        <Button className="btn-info">Erstellen</Button>
                     </LinkContainer>
                 </div>
             )}

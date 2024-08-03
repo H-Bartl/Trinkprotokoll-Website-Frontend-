@@ -8,12 +8,14 @@ import './PageProtokoll.css';
 import { Button, Card, CardBody, CardFooter, CardHeader } from "react-bootstrap";
 import { Edit } from "./Edit";
 import { useLoginContext } from "./LoginContext";
+import { Delete } from "./Delete";
+import { LinkContainer } from "react-router-bootstrap";
+import { EditEintrag } from "./EditEintrag";
 
 export function PageProtokoll(){
 
     const params = useParams()
     let protokollId = params.protokollId
-    // console.log(protokollId + "-----------")
 
     const [totalProtokoll, setProtokoll] = useState<ProtokollResource>();
     const [loading, setLoading] = useState<ProtokollResource | undefined>(undefined)
@@ -24,6 +26,8 @@ export function PageProtokoll(){
     const {loginInfo} = useLoginContext()
 
     const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false)
+    const [showDetail, setShowDetail] = useState(false)
 
     const {showBoundary} = useErrorBoundary();
 
@@ -61,6 +65,13 @@ export function PageProtokoll(){
     }
     else{
         return (<div>
+                {loginInfo && (
+                    <div style={{marginTop:"20px", marginLeft:"10px"}}>
+                        <LinkContainer to={`/protokoll/${protokollId}/eintrag/neu`}>
+                            <Button className="btn-info">Erstellen</Button>
+                        </LinkContainer>
+                    </div>
+                )}
                     {
 
                             <Card className="protocol-card" key={totalProtokoll!.ersteller}>
@@ -76,8 +87,9 @@ export function PageProtokoll(){
                                     <div className="protocol-row"><span className="protocol-label">Gesamtemenge: {totalProtokoll!.gesamtMenge}</span></div>
                                 </CardBody>
                                 <CardFooter>
-                                    {loginInfo && (<><Button onClick={protEdit}>Editieren</Button><Button className="btn btn-danger" style={{marginLeft:"20px"}} onClick={deleteProt}>Löschen</Button></>)}
+                                    {loginInfo && (<><Button onClick={protEdit}>Editieren</Button><Button className="btn btn-danger" style={{marginLeft:"20px"}} onClick={() => setShow2(true)}>Löschen</Button></>)}
                                     {show && <Edit open={show} onHide={() => setShow(false)}></Edit>}
+                                    {show2 && <Delete open={show2} onHide={() => setShow2(false)}></Delete>}
                                 </CardFooter>
                             </Card>
                                     
@@ -96,7 +108,9 @@ export function PageProtokoll(){
                                                 <div className="protocol-row"><span className="protocol-label">Erstellt: {eintrag.createdAt}</span></div>
                                             </CardBody>
                                             <CardFooter>
-                                                <Link to={`/eintrag/${eintrag.id}`}>Eintrag ansehen</Link>
+                                                <LinkContainer to={`/eintrag/${eintrag.id}`}>
+                                                    <Button>Details</Button>
+                                                </LinkContainer>
                                             </CardFooter>
                                         </Card>
                                         )}

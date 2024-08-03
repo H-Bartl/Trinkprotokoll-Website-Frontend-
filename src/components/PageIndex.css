@@ -39,3 +39,9 @@
     background-color: rgb(38, 175, 125);
     border-color: rgb(38, 175, 125);
 }
+
+.separator {
+    border: 1px solid grey;
+    margin-top: 20px;
+  }
+  

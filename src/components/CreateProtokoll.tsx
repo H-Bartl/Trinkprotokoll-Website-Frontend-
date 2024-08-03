@@ -34,8 +34,8 @@ export function CreateProtokoll() {
     const [error, setError] = useState("")
 
     async function validate() {
-        if(patient.length<1000 && patient.length<3){
-            setError("Name muss zwischen 3 und 1000 zeichen haben!")
+        if(patient.length < 3 || patient.length > 100){
+            setError("Name muss zwischen 3 und 100 zeichen haben!")
         }
     }
 
@@ -46,7 +46,6 @@ export function CreateProtokoll() {
                 navigate(`/`)
             }
         } catch (error) {
-            showBoundary(error)
         }
     }
 
@@ -71,11 +70,11 @@ export function CreateProtokoll() {
             <Form.Label>Geschlossen</Form.Label>
             <Form.Control className="form-check-input" type="checkbox" value={closed.toString()} onChange={(e) => setClosed(true)}></Form.Control>
             
-            <LinkContainer to="/">
-                <Button className="btn btn-danger" style={{marginTop:"20px"}}>Abbrechen</Button>
+            <LinkContainer to="/" style={{marginTop:"20px"}}>
+                <Button className="btn btn-danger">Abbrechen</Button>
             </LinkContainer>
 
-            <Button onClick={postProt} style={{marginTop:"20px"}}>Erstellen</Button>
+            <Button onClick={postProt} style={{marginTop:"20px", marginLeft:"80px"}}>Speichern</Button>
         </Form>
     )
 }

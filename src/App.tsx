@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { LoginContext, LoginInfo } from "./components/LoginContext";
 import { getLogin } from "./backend/api";
 import { CreateProtokoll } from "./components/CreateProtokoll";
+import { CreateEintrag } from "./components/CreateEintrag";
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
             <Route path="/admin" element={<PageAdmin/>}></Route>
             <Route path="/prefs" element={<PagePrefs/>}></Route>
             <Route path="/protokoll/neu" element={<CreateProtokoll/>}></Route>
+            <Route path="/protokoll/:protokollId/eintrag/neu" element={<CreateEintrag/>}></Route>
           </Routes>
         </LoginContext.Provider>
       </ErrorBoundary>
