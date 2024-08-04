@@ -1,18 +1,14 @@
 import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter, Button, FormLabel, FormText, Row, FormGroup, Card } from "react-bootstrap";
 import './PageIndex.css'; 
 import React, { useState } from "react";
-import { erstellerId, getProtokoll, postEintrag, postProtokoll, putProtokoll } from "../backend/api";
+import { erstellerId, postEintrag } from "../backend/api";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Form } from "react-bootstrap";
-import { EintragResource, ProtokollResource } from "../Resources";
+import { EintragResource } from "../Resources";
 import { useErrorBoundary } from "react-error-boundary";
-import { DefaultDeserializer } from "v8";
 import { LinkContainer } from "react-router-bootstrap";
 
 export function CreateEintrag() {
-
-    const refTitle = React.useRef<HTMLInputElement>(null)
-    const refOtherData = React.useRef<HTMLTextAreaElement>(null)
 
     const { showBoundary } = useErrorBoundary();
 
@@ -34,9 +30,8 @@ export function CreateEintrag() {
     const navigate = useNavigate();
 
     const [error, setError] = useState("");
-
-    const [mengeError, setMengeError] = useState("")
-    const [kommentarErr, setKommentarErr] = useState("")
+    const [mengeError, setMengeError] = useState("");
+    const [kommentarErr, setKommentarErr] = useState("");
 
     async function validate() {
         let isValid = true;
@@ -44,8 +39,6 @@ export function CreateEintrag() {
         if (getraenk.length < 1 || getraenk.length > 100) {
             setError("Name muss zwischen 1 und 100 Zeichen haben!");
             isValid = false;
-        } else {
-            setError("");
         }
 
         if (menge > 10000) {
@@ -54,15 +47,11 @@ export function CreateEintrag() {
         } else if (menge <= 0) {
             setMengeError("Menge muss mehr als 0 sein.");
             isValid = false;
-        } else {
-            setMengeError("");
         }
 
-        if (kommentar.length > 0 && (kommentar.length < 1 || kommentar.length > 1000)) {
+        if (kommentar.length > 0 && kommentar.length > 1000) {
             setKommentarErr("Kommentar muss zwischen 1 und 1000 Zeichen haben.");
             isValid = false;
-        } else {
-            setKommentarErr("");
         }
 
         return isValid;
@@ -71,17 +60,16 @@ export function CreateEintrag() {
     async function createEintrag() {
         if (await validate()) {
             try {
-                let p = await postEintrag(eintragResource)
-                navigate(`/protokoll/${eintragResource.protokoll}`)
-                
+                let p = await postEintrag(eintragResource);
+                navigate(`/protokoll/${eintragResource.protokoll}`);
             } catch (error) {
-                // showBoundary(error);
+                
             }
         }
     }
 
     return (
-        <Form style={{ marginTop: "30px", marginLeft: "10px", marginRight: "75%" }}>
+        <Form style={{ marginTop: "30px", marginLeft: "10px", marginRight: "70%" }}>
             <Form.Label>Getraenk</Form.Label>
             <Form.Control type="text" value={getraenk} onChange={(e) => setGetraenk(e.target.value)} onBlur={validate} isInvalid={!!error}>
             </Form.Control>

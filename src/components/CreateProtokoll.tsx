@@ -8,6 +8,7 @@ import { ProtokollResource } from "../Resources";
 import { useErrorBoundary } from "react-error-boundary";
 import { DefaultDeserializer } from "v8";
 import { LinkContainer } from "react-router-bootstrap";
+import { ErrorFromValidation } from "../backend/fetchWithErrorHandling";
 
 export function CreateProtokoll() {
 
@@ -20,6 +21,8 @@ export function CreateProtokoll() {
     const [date, setDate] = useState("")
     const [publik, setPublic] = useState<boolean>(false);
     const [closed, setClosed] = useState<boolean>(false);
+
+    const [validationErrors, setValidationErrors] = useState({});
 
     const navigate = useNavigate();
 
@@ -36,6 +39,8 @@ export function CreateProtokoll() {
     async function validate() {
         if(patient.length < 3 || patient.length > 100){
             setError("Name muss zwischen 3 und 100 zeichen haben!")
+        } else {
+            setError("");
         }
     }
 
@@ -46,12 +51,16 @@ export function CreateProtokoll() {
                 navigate(`/`)
             }
         } catch (error) {
+            if(error instanceof ErrorFromValidation){
+                error.validationErrors.forEach((validationError) => {
+                    setValidationErrors({ ...validationErrors, [validationError.value]: validationError.msg});
+                })
+            }
         }
     }
 
-
     return (
-        <Form style={{marginTop:"30px", marginLeft:"10px", marginRight:"75%"}}>
+        <Form style={{marginTop:"30px", marginLeft:"10px", marginRight:"70%"}}>
 
             <Form.Label>Patient</Form.Label>
             <Form.Control type="text" value={patient} onChange={(e) => setPatient(e.target.value)} onBlur={validate} isInvalid={!!error}>
@@ -65,10 +74,18 @@ export function CreateProtokoll() {
             </Form.Control>
 
             <Form.Label>Öffentlich</Form.Label>
-            <Form.Control className="form-check-input" type="checkbox" value={publik.toString()} onChange={(e) => setPublic(true)}></Form.Control>
-            
+            <Form.Check 
+                type="checkbox" 
+                checked={publik} 
+                onChange={(e) => setPublic(e.target.checked)} 
+            />
+
             <Form.Label>Geschlossen</Form.Label>
-            <Form.Control className="form-check-input" type="checkbox" value={closed.toString()} onChange={(e) => setClosed(true)}></Form.Control>
+            <Form.Check 
+                type="checkbox" 
+                checked={closed} 
+                onChange={(e) => setClosed(e.target.checked)} 
+            />
             
             <LinkContainer to="/" style={{marginTop:"20px"}}>
                 <Button className="btn btn-danger">Abbrechen</Button>
