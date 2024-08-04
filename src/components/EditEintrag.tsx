@@ -11,9 +11,9 @@ interface EditProp {
     onHide: () => void;
 }
 
-export function EditEintrag({open, onHide}: EditProp) {
+export function EditEintrag({ open, onHide }: EditProp) {
 
-    const {showBoundary} = useErrorBoundary();
+    const { showBoundary } = useErrorBoundary();
 
     const [getraenk, setGetraenk] = useState("");
     const [menge, setMenge] = useState<number>(0);
@@ -59,7 +59,7 @@ export function EditEintrag({open, onHide}: EditProp) {
             setMengeError("");
         }
 
-        if (kommentar.length > 0 && (kommentar.length < 1 || kommentar.length > 1000)) {
+        if (kommentar.length > 1000) {
             setKommentarErr("Kommentar muss zwischen 1 und 1000 Zeichen haben.");
             isValid = false;
         } else {
@@ -111,22 +111,22 @@ export function EditEintrag({open, onHide}: EditProp) {
                 )}
 
                 <label className="protocol-label">Menge:</label>
-                <input type="number" id="menge" className="form-control" value={menge} onChange={(e) => setMenge(parseInt(e.target.value))} onBlur={validate} style={{marginBottom:"10px"}} />
+                <input type="number" id="menge" className="form-control" value={menge} onChange={(e) => setMenge(parseInt(e.target.value))} onBlur={validate} style={{ marginBottom: "10px" }} />
                 {mengeError && (
                     <div style={{ color: 'rgb(149, 46, 46)', fontWeight: 'bold' }}>{mengeError}</div>
                 )}
 
                 <label className="protocol-label">Kommentar:</label>
-                <input type="text" id="kommentar" className="form-control" value={kommentar} onChange={(e) => setKommentar(e.target.value)} onBlur={validate} style={{marginBottom:"10px"}} />
+                <textarea id="kommentar" className="form-control" value={kommentar} onChange={(e) => setKommentar(e.target.value)} onBlur={validate} style={{ marginBottom: "10px", height: "100px" }} />
                 {kommentarErr && (
                     <div style={{ color: 'rgb(149, 46, 46)', fontWeight: 'bold' }}>{kommentarErr}</div>
                 )}
 
-                <Button className="btn-danger" onClick={onHide} style={{marginRight:"270px", marginTop:"7px"}}>Abbrechen</Button>
+                <Button className="btn-danger" onClick={onHide} style={{ marginRight: "270px", marginTop: "7px" }}>Abbrechen</Button>
                 <Button className="btn-success" onClick={putEint}>Speichern</Button>
             </ModalBody>
             <ModalFooter>
-                <Button onClick={onHide} style={{marginRight: "285px"}}>Zurück zur Übersicht</Button>
+                <Button onClick={onHide} style={{ marginRight: "285px" }}>Zurück zur Übersicht</Button>
             </ModalFooter>
         </Modal>
     );
