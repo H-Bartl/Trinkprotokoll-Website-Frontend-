@@ -68,7 +68,7 @@ export function PageProtokoll(){
                 {loginInfo && (
                     <div style={{marginTop:"20px", marginLeft:"10px"}}>
                         <LinkContainer to={`/protokoll/${protokollId}/eintrag/neu`}>
-                            <Button className="btn-info">Erstellen</Button>
+                            <Button className="btn-info">Neuer Eintrag</Button>
                         </LinkContainer>
                     </div>
                 )}
